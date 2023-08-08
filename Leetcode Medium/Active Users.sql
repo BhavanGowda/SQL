@@ -71,17 +71,17 @@
 
 
 WITH dedup_logins AS (SELECT DISTINCT id,
-									  login_date
-					  FROM Logins),
+				      login_date
+		      FROM Logins),
 
 logins_lead AS (SELECT id,
-				       login_date,
-					   LEAD(login_date,4) OVER(PARTITION BY id ORDER BY login_date) AS leaded_date
-				FROM dedup_logins),
+		       login_date,
+		       LEAD(login_date,4) OVER(PARTITION BY id ORDER BY login_date) AS leaded_date
+		FROM dedup_logins),
 				
 active_ids AS (SELECT distinct id
-			   FROM logins_lead
-			   WHERE leaded_date IS NOT NULL) -- we can use datediff function as well datediff(leaded_date, login_date) = 4
+	       FROM logins_lead
+	       WHERE leaded_date IS NOT NULL) -- we can use datediff function as well datediff(leaded_date, login_date) = 4
 			   
 SELECT i.id, a.name
 FROM active_ids i
