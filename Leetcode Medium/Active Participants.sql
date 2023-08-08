@@ -68,14 +68,14 @@
 -- Note: As all activities in Activities table is present in Freinds table, we can neglect Activities
 
 WITH activities_agg AS (SELECT activity, COUNT(id) AS occurence
-						            FROM Friends
-						            GROUP BY activity),
+			FROM Friends
+			GROUP BY activity),
 
 activies_extn AS (SELECT activity,
-						             occurence,
-						             MAX(occurence) OVER() as mx_occ,
-						             MIN(occurence) OVER() as mn_occ
-				          FROM activities_agg)
+			 occurence,
+			 MAX(occurence) OVER() as mx_occ,
+			 MIN(occurence) OVER() as mn_occ
+		  FROM activities_agg)
 				  
 SELECT activity
 FROM activies_extn
