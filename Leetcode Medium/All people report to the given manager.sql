@@ -61,14 +61,16 @@
 -- STEP3 : Excluding the base case after recurive query is executed as we want to find other employees who report to the head
 
 WITH recur_employee AS (SELECT employee_id  -- base case
-						FROM Employees
-						WHERE employee_id = 1 
+			FROM Employees
+			WHERE employee_id = 1 
 						
-						UNION ALL -- for merging the records while tracing backward in recursion
+			UNION ALL -- for merging the records while tracing backward in recursion
 						
-						SELECT e.employee_id AS employee_id -- recursive case
-						FROM Employees e
-						INNER JOIN recur_employee r
-						ON r.employee_id = e.manager_id)
+			SELECT e.employee_id AS employee_id -- recursive case
+			FROM Employees e
+			INNER JOIN recur_employee r
+			ON r.employee_id = e.manager_id)
 
-SELECT employee_id FROM recur_employee WHERE employee_id <> 1;
+SELECT employee_id 
+FROM recur_employee
+WHERE employee_id <> 1;
