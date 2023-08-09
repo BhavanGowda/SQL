@@ -49,8 +49,8 @@
 SELECT business_id 
 FROM
 	(SELECT business_id, 
-		   occurences, 
-		   AVG(occurences) OVER(PARTITION BY event_type) AS avg_event_occ
+		occurences, 
+		AVG(occurences) OVER(PARTITION BY event_type) AS avg_event_occ
 	FROM Events)
 WHERE occurences > avg_event_occ
 GROUP BY business_id
