@@ -57,12 +57,13 @@
 -- Step3 : Filtering the rows will NULL result after LEAD function is applied as after orange there is no fruit and computing the difference
 
 WITH sales_extn AS (SELECT sale_date,
-						               fruit,
-						               sold_num,
-						               LEAD(sold_num) OVER(PARTITION BY sale_date ORDER BY fruit) AS nxt_sold_num
-					          FROM Sales)
+			   fruit,
+			   sold_num,
+			   LEAD(sold_num) OVER(PARTITION BY sale_date ORDER BY fruit) AS nxt_sold_num
+		    FROM Sales)
 					
 SELECT sale_date,
-	     (sold_num - nxt_sold_num) AS diff
+       (sold_num - nxt_sold_num) AS diff
 FROM sales_extn
-WHERE nxt_sold_num IS NOT NULL;
+WHERE nxt_sold_num IS NOT NULL
+ORDER BY sale_date;
