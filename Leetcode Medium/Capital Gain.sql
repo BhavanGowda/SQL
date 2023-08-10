@@ -59,6 +59,6 @@
 
 SELECT stock_name,
        SUM(CASE WHEN operation = 'Buy' THEN -price
-		   ELSE price) AS capital_gain_loss
+	   ELSE price) AS capital_gain_loss
 FROM Stocks
 GROUP BY stock_name;
