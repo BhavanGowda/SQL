@@ -67,16 +67,16 @@
 -- Step3 : We will have to round the final value to the nearest integer
 
 WITH salaries_extn AS (SELECT company_id,
-							                employee_id,
-							                employee_name,
-							                salary,
-							                MAX(salary) OVER(PARTITION BY company_id) AS company_max_salary
-					            FROM Salaries)
+			      employee_id,
+			      employee_name,
+			      salary,
+			      MAX(salary) OVER(PARTITION BY company_id) AS company_max_salary
+		       FROM Salaries)
 
 SELECT company_id,
-	     employee_id,
-	     employee_name,
-	     ROUND(salary * (1 - (CASE WHEN company_max_salary IN BETWEEN 1000 AND 10000 THEN 24
-						                     WHEN company_max_salary > 10000 THEN 49
-						                ELSE 0)/100)) AS salary
+       employee_id,
+       employee_name,
+       ROUND(salary * (1 - (CASE WHEN company_max_salary IN BETWEEN 1000 AND 10000 THEN 24
+				WHEN company_max_salary > 10000 THEN 49
+			    ELSE 0)/100)) AS salary
 FROM salaries_extn;
