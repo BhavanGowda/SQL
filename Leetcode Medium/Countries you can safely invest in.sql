@@ -100,23 +100,22 @@
 -- Step3 : Once we have the averages, we can compare them and provide the result
 
 WITH calls_appended AS (SELECT caller_id AS id,
-							   duration
-						FROM Calls
-						UNION ALL
-						SELECT callee_id AS id,
-							   duration
-						FROM Calls),
+			       duration
+			FROM Calls
+			UNION ALL
+			SELECT callee_id AS id,
+			       duration
+			FROM Calls),
 						
 country_avg_extn AS (SELECT DISTINCT c.name AS country,
-									 AVG(a.duration) OVER() AS global_avg_duartion,
-									 AVG(a.duration) OVER(PARTITION BY c.country_code) AS country_avg_duration
-					 FROM calls_appended a
-					 INNER JOIN Person p
-					 ON a.id = p.id
-					 INNER JOIN Country c
-					 ON LEFT(p.phone_number,3) = c.country_code)
+				     AVG(a.duration) OVER() AS global_avg_duartion,
+				     AVG(a.duration) OVER(PARTITION BY c.country_code) AS country_avg_duration
+		     FROM calls_appended a
+		     INNER JOIN Person p
+		     ON a.id = p.id
+		     INNER JOIN Country c
+		     ON LEFT(p.phone_number,3) = c.country_code)
 
 SELECT country
 FROM  country_avg_extn
 WHERE country_avg_duration > global_avg_duartion;
-					 
