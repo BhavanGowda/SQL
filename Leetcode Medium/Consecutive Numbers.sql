@@ -25,9 +25,9 @@
 -- Step3 : Once we have the leading row data in the current, we can compare if they are equal and return the result
 
 WITH logs_extn AS (SELECT Num,
-						              LEAD(Num) OVER() AS first_lead_num,
-						              LEAD(Num,2) OVER() AS sec_lead_num
-				           FROM Logs)
+			  LEAD(Num) OVER() AS first_lead_num,
+			  LEAD(Num,2) OVER() AS sec_lead_num
+		   FROM Logs)
 
 SELECT DISTINCT Num
 FROM logs_extn
