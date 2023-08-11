@@ -54,11 +54,11 @@
 -- Step2 : Merge the above result with the department table to satisfy the departments having no current students
 
 WITH department_agg AS (SELECT dept_id,
-							   COUNT(student_id) AS total_students
-						FROM student)
+			       COUNT(student_id) AS total_students
+			FROM student)
 
 SELECT d.dept_name,
-	   COALESCE(a.total_students, 0) AS student_number
+       COALESCE(a.total_students, 0) AS student_number
 FROM department AS d
 LEFT JOIN department_agg AS a
 ON d.dept_id = a.dept_id;
