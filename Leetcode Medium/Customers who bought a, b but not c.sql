@@ -71,14 +71,14 @@
 -- Step3 : Once we have the above result we can filter the customers
 
 WITH customer_agg AS (SELECT c.customer_id,
-	   						 c.customer_name,
-       						 COUNT(DISTINCT CASE WHEN o.product_name IN ('A','B') THEN product_name END) AS bought_cnts,
-       						 COUNT(DISTINCT CASE WHEN o.product_name = 'C' THEN product_name END) AS not_bough_cnts
-					  FROM Orders o
-					  INNER JOIN Customers c
-					  ON o.customer_id = c.customer_id)
+	   		     c.customer_name,
+       			     COUNT(DISTINCT CASE WHEN o.product_name IN ('A','B') THEN product_name END) AS bought_cnts,
+       			     COUNT(DISTINCT CASE WHEN o.product_name = 'C' THEN product_name END) AS not_bough_cnts
+		      FROM Orders o
+	              INNER JOIN Customers c
+		      ON o.customer_id = c.customer_id)
 
 SELECT customer_id,
-	   customer_name
+       customer_name
 FROM customer_agg
 WHERE bought_cnts = 2 and not_bough_cnts = 0;
