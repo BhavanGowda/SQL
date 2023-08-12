@@ -31,6 +31,9 @@
 -- Explanation:
 
 -- Max and Jim both have the highest salary in the IT department and Henry has the highest salary in the Sales department.
+-- Explanation:
+-- Step1 : As departmentId is available in the Employee table we can just apply window fucntion to calculate the highest salary
+-- Step2 : Once we have calculated the window function we just have to join the table with the Department to get the result
 
 WITH employee_extn AS (SELECT Name,
 			      Salary,
