@@ -33,14 +33,14 @@
 -- Max and Jim both have the highest salary in the IT department and Henry has the highest salary in the Sales department.
 
 WITH employee_extn AS (SELECT Name,
-							  Salary,
-							  DepartmentId,
-							  DENSE_RANK() OVER(PARTITION BY DepartmentId ORDER BY Salary DESC) AS rnk
-					   FROM Employee)
+			      Salary,
+			      DepartmentId,
+			      DENSE_RANK() OVER(PARTITION BY DepartmentId ORDER BY Salary DESC) AS rnk
+		       FROM Employee)
 
 SELECT d.Name AS Department,
-	   e.Name AS Employee,
-	   e.Salary
+       e.Name AS Employee,
+       e.Salary
 FROM Department d
 INNER JOIN employee_extn e
 ON d.Id = e.DepartmentId
