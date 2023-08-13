@@ -49,8 +49,10 @@
 -- Step 2: Finally, we need to find the maximum and minimum value from that group
 
 WITH log_extn AS (SELECT log_id,
-                  		 (log_id - ROW_NUMBER() OVER()) AS log_grouper
+                  		   (log_id - ROW_NUMBER() OVER()) AS log_grouper
                   FROM Logs)
-SELECT MIN(log_id) AS start_id, MAX(log_id) AS end_id
+
+SELECT MIN(log_id) AS start_id,
+       MAX(log_id) AS end_id
 FROM log_extn
 GROUP BY log_grouper;
