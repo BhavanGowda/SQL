@@ -27,17 +27,22 @@
 -- +------+------+
 -- The person with id '3' is a friend of people '1', '2' and '4', so he has 3 friends in total, which is the most number than any others.
 
+-- Pattern : Exchange columns union
+-- Explanation :
+-- Step1 : As friends can be created only once between the accepter and requester we can represent both of them in the same relationship
+--         using UNION ALL
+-- Step2 : Next step is to group the data based upon the frnd and take the row row with maximum of_frnds
 
 WITH frnd_extn AS (SELECT requester_id AS frnd,
-	   					  accepter_id AS of_frnd
+	   		  accepter_id AS of_frnd
                    FROM Request_accepted 
-				   UNION ALL
-				   SELECT accepter_id AS frnd,
-	   					  requester_id AS of_frnd
+		   UNION ALL
+		   SELECT accepter_id AS frnd,
+	   		  requester_id AS of_frnd
                    FROM Request_accepted)
                           
 SELECT frnd AS id,
-	   COUNT(of_frnd) AS num
+       COUNT(of_frnd) AS num
 FROM frnd_extn
 GROUP BY frnd
 ORDER BY num DESC
