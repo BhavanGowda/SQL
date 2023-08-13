@@ -34,15 +34,15 @@
 
 
 WITH students_extn AS (SELECT id,
-	   student,
-       LEAD(id) OVER() AS ld_id,
-       LEAD(student) OVER() AS ld_student,
-       LAG(id) OVER() AS lg_id,
-       LAG(student) OVER() AS lg_student
-FROM Students)
+	   		      student,
+       			      LEAD(id) OVER() AS ld_id,
+       			      LEAD(student) OVER() AS ld_student,
+       			      LAG(id) OVER() AS lg_id,
+       			      LAG(student) OVER() AS lg_student
+		       FROM Students)
 
 SELECT id,
        COALESCE(CASE WHEN id % 2 = 1 THEN ld_student
-                	 ELSE lg_student
-           		END, student) AS student
-FROM students_extn
+                     ELSE lg_student
+           	END, student) AS student
+FROM students_extn;
