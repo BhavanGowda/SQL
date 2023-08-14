@@ -49,6 +49,6 @@
 -- Step3 : Write the sum function which is partitioned over player_id and is ordered by the event date
 
 SELECT player_id,
-	   event_date,
+       event_date,
        SUM(games_played) OVER(PARTITION BY player_id ORDER BY event_date) AS games_played_so_far
 FROM Activity;
