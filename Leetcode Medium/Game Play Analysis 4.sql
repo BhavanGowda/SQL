@@ -49,7 +49,7 @@
 -- Step4 : Finnaly we can calculate the fraction
 
 WITH activity_extn AS (SELECT player_id,
-                        	  DATEDIFF(LEAD(event_date) OVER(PARTITION BY player_id ORDER BY event_date),
+                        	     DATEDIFF(LEAD(event_date) OVER(PARTITION BY player_id ORDER BY event_date),
                               MIN(event_date) OVER(PARTITION BY player_id)) AS date_diff 
                        FROM Activity)
 
