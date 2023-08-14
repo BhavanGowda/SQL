@@ -37,9 +37,10 @@
 
 
 WITH activity_extn AS (SELECT question_id,
-                       		  ROUND(COUNT(answer_id)/COUNT(DISTINCT CASE WHEN action = 'show' THEN id END),2) AS qstn_rate
+                       		     ROUND(COUNT(answer_id)/COUNT(DISTINCT CASE WHEN action = 'show' THEN id END),2) AS qstn_rate
                        FROM Activity
                        GROUP BY question_id)
+
 SELECT question_id AS survey_log
 FROM activity_extn
 ORDER BY qstn_rate DESC
