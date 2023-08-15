@@ -49,16 +49,16 @@
 -- Step3 : As at most is required we need to count the number of activities performed by the user in different days
 
 WITH useractivity_extn AS (SELECT username,
-								  activity,
-								  startDate,
-								  endDate,
-								  ROW_NUMBER() OVER (PARTITION BY username ORDER BY startDate) AS rnk
-								  COUNT(startDate) OVER(PARTITION BY username) AS cnts
-						   FROM UserActivity)
+				  activity,
+				  startDate,
+				  endDate,
+				  ROW_NUMBER() OVER (PARTITION BY username ORDER BY startDate) AS rnk
+				  COUNT(startDate) OVER(PARTITION BY username) AS cnts
+			   FROM UserActivity)
 
 SELECT username,
-	   activity,
-	   startDate,
-	   endDate
+       activity,
+       startDate,
+       endDate
 FROM useractivity_extn
 WHERE rnk = 2 or cnts = 1;
