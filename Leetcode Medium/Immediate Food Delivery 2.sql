@@ -52,10 +52,10 @@
 -- Step3 : Once we get the first orders for each of the customers, we can check how many satisfies the immediate order condition
 
 WITH person_extn AS (SELECT delivery_id,
-                     		customer_id,
-                     		order_date,
-                     		customer_pref_delivery_date,
-                     		ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date ASC) AS rnk
+                     		     customer_id,
+                     		     order_date,
+                     		     customer_pref_delivery_date,
+                     		     ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date ASC) AS rnk
                      FROM Person)
 
 SELECT ROUND((COUNT(CASE WHEN order_date = customer_pref_delivery_date THEN customer_id END)/COUNT(customer_id))*100,2) AS immediate_percentage
