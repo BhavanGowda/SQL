@@ -45,9 +45,9 @@
 -- Step2 : Remove the LAT, LON counts other than 1 and consider TIV_2015 value which is greater than 1
 
 WITH insurance_extn AS (SELECT TIV_2016,
-							   COUNT(TIV_2015) OVER(PARTITION BY TIV_2015) AS cnt_amt,
-							   COUNT(CONCAT(LAT, ',', LON)) OVER(PARTITION BY CONCAT(LAT, ',', LON)) AS cnt_geo
-					    FROM Insurance)
+			       COUNT(TIV_2015) OVER(PARTITION BY TIV_2015) AS cnt_amt,
+			       COUNT(CONCAT(LAT, ',', LON)) OVER(PARTITION BY CONCAT(LAT, ',', LON)) AS cnt_geo
+			FROM Insurance)
 						
 SELECT SUM(TIV_2016)
 FROM insurance_extn
@@ -55,9 +55,9 @@ WHERE cnt_amt>1 and cnt_geo = 1;
 
 /*ALTERNATIVE 
 WITH lat_lon AS (SELECT CONCAT(LAT, ',', LON) AS cnt
-					    FROM Insurance
-                        GROUP BY CONCAT(LAT, ',', LON)
-                        HAVING COUNT(CONCAT(LAT, ',', LON))=1),
+		 FROM Insurance
+                 GROUP BY CONCAT(LAT, ',', LON)
+                 HAVING COUNT(CONCAT(LAT, ',', LON))=1),
 
 tiv_15 AS (SELECT TIV_2015
            FROM Insurance
