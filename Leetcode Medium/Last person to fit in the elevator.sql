@@ -49,8 +49,8 @@
 -- Step3 : Two ways to find person before exceeding point - 1. Order By and Limit 2. First Value
 
 WITH queue_extn AS (SELECT person_name,
-						   SUM(weight) OVER (ORDER BY turn) AS rnng_sum
-					FROM Queue)
+			   SUM(weight) OVER (ORDER BY turn) AS rnng_sum
+		    FROM Queue)
 
 SELECT DISTINCT FIRST_VALUE(person_name) OVER(ORDER BY rnng_sum DESC) AS person_name
 FROM queue_extn
