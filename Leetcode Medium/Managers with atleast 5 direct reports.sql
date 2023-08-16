@@ -26,9 +26,9 @@
 -- Step2 : Once we get the manager ID's with more than or equals 5 reportee's, we can get the name by joining by itself
 
 WITH manager_extn AS (SELECT ManagerId
-					  FROM Employee
-					  GROUP BY ManagerId
-					  HAVING COUNT(ManagerId) >= 5)
+		      FROM Employee
+		      GROUP BY ManagerId
+		      HAVING COUNT(ManagerId) >= 5)
 
 SELECT Name
 FROM Employee e
