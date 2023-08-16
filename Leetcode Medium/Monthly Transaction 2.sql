@@ -65,27 +65,27 @@
 -- Step1 : As we need the country, months based aggregation for each of the amounts and finally perform an outer join across both query
 
 WITH transaction_agg AS (SELECT SUBSTRING(trans_date, 1, 7) AS month,
-								country,
-								COUNT(CASE WHEN state = 'approved' THEN id END) AS approved_count,
-								SUM(CASE WHEN state = 'approved' THEN amount END) AS approved_amount
-					     FROM Transactions
-						 GROUP BY SUBSTRING(trans_date, 1, 7), country),
+				country,
+				COUNT(CASE WHEN state = 'approved' THEN id END) AS approved_count,
+				SUM(CASE WHEN state = 'approved' THEN amount END) AS approved_amount
+			 FROM Transactions
+			 GROUP BY SUBSTRING(trans_date, 1, 7), country),
 						
 chargebacks_agg AS (SELECT SUBSTRING(c.charge_date, 1, 7) AS month,
-						   t.country AS country,
-						   COUNT(trans_id) AS chargeback_count,
-						   SUM(t.amount) AS chargeback_amount
-					FROM Chargebacks c
-					LEFT JOIN Transactions t
-					ON c.trans_id = t.id
-					GROUP BY SUBSTRING(c.charge_date, 1, 7), t.country)
+			   t.country AS country,
+			   COUNT(trans_id) AS chargeback_count,
+			   SUM(t.amount) AS chargeback_amount
+		    FROM Chargebacks c
+		    LEFT JOIN Transactions t
+		    ON c.trans_id = t.id
+		    GROUP BY SUBSTRING(c.charge_date, 1, 7), t.country)
 					
 SELECT COALESCE(t.month,c.month) AS month,
-	   COALESCE(t.country, c.country) AS country,
-	   COALESCE(t.approved_count,0) AS approved_count,
-	   COALESCE(t.approved_amount,0) AS approved_amount,
-	   COALESCE(c.chargeback_count,0) AS chargeback_count,
-	   COALESCE(c.chargeback_amount,0) AS chargeback_amount
+       COALESCE(t.country, c.country) AS country,
+       COALESCE(t.approved_count,0) AS approved_count,
+       COALESCE(t.approved_amount,0) AS approved_amount,
+       COALESCE(c.chargeback_count,0) AS chargeback_count,
+       COALESCE(c.chargeback_amount,0) AS chargeback_amount
 FROM transaction_agg t
 FULL OUTER JOIN chargebacks_agg c
-On t.month = c.month;
+ON t.month = c.month;
