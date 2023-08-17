@@ -54,16 +54,20 @@
 -- | 200        | 2011       | 15       | 9000  |
 -- +------------+------------+----------+-------+
 
+-- Explanation:
+-- Step1 : Just need to get the data based on least year available for the products in Sales table, Product table is not required
+--	   to query
+
 WITH sales_extn AS (SELECT product_id,
-						   year,
-						   quantity,
-						   price,
-						   DENSE_RANK() OVER(PARTITION BY product_id ORDER BY year) AS rnk
-					FROM Sales)
+			   year,
+			   quantity,
+			   price,
+			   DENSE_RANK() OVER(PARTITION BY product_id ORDER BY year) AS rnk
+		    FROM Sales)
 
 SELECT product_id,
-	   year AS first_year,
-	   quantity,
-	   price
+       year AS first_year,
+       quantity,
+       price
 FROM sales_extn
 WHERE rnk = 1;
