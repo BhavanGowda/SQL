@@ -94,13 +94,13 @@
 -- Step3 : We need to join both the query to there respective dimention tables to get the names
 
 WITH user_rating_extn AS (SELECT user_id,
-								 COUNT(movie_id) OVER(PARTITION BY user_id) AS user_rating_cnts
-						  FROM Movie_Rating),
+				 COUNT(movie_id) OVER(PARTITION BY user_id) AS user_rating_cnts
+			  FROM Movie_Rating),
 
 movie_rating_extn AS (SELECT movie_id,
-							 AVG(rating) OVER(PARTITION BY movie_id) AS avg_movie_rating
-					  FROM Movie_Rating
-					  WHERE SUBSTRING(created_at,1,7) = '2020-02')
+			     AVG(rating) OVER(PARTITION BY movie_id) AS avg_movie_rating
+		      FROM Movie_Rating
+		      WHERE SUBSTRING(created_at,1,7) = '2020-02')
 
 SELECT DISTINCT FIRST_VALUE(name) OVER (ORDER BY user_rating_cnts DESC, name ASC) AS results
 FROM Users u
