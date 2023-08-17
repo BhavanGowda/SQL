@@ -44,11 +44,11 @@
 
 WITH product_extn AS (SELECT DISTINCT product_id, 
                              FIRST_VALUE(new_price) OVER(PARTITION BY product_id ORDER BY change_date DESC) AS price
-					  FROM Products
-					  WHERE change_date<= '2019-08-16'),
+		      FROM Products
+		      WHERE change_date<= '2019-08-16'),
 					  
 dim_product AS (SELECT DISTINCT product_id
-				FROM Products)
+		FROM Products)
 
 SELECT d.product_id, COALESCE(p.price, 10) AS price
 FROM dim_product d
