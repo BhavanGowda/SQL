@@ -23,7 +23,7 @@ BEGIN
       SELECT DISTINCT Salary
       FROM
       (SELECT Salary,
-             DENSE_RANK() OVER(ORDER BY Salary DESC) AS rnk
+              DENSE_RANK() OVER(ORDER BY Salary DESC) AS rnk
       FROM Employee) a
       WHERE rnk = n
   );
