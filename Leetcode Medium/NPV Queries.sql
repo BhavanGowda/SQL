@@ -79,8 +79,8 @@
 --         just need to perform a LEFT JOIN, along wit COALESCE to handle non present value in the NPV table.
 
 SELECT q.id,
-	   q.year,
-	   COALESCE(n.npv, 0) AS npv
+       q.year,
+       COALESCE(n.npv, 0) AS npv
 FROM Queries q
 LEFT JOIN NPV n
 USING(id, year);
