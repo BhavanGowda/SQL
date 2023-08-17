@@ -59,7 +59,7 @@ WITH min_login AS (SELECT user_id,
                    GROUP BY user_id)
 
 SELECT login_date,
-	   COUNT(user_id) AS user_count
+       COUNT(user_id) AS user_count
 FROM min_login
 WHERE login_date>='2019-04-01' and login_date<='2019-06-30'
 GROUP BY login_date;
