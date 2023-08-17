@@ -63,13 +63,13 @@
 -- Step2 : We need to considered the most experienced employees in the project as the output, even if a tie is there
 
 WITH project_extn AS (SELECT project_id,
-							 e.employee_id,
-							 DENSE_RANK() OVER(PARTITION BY project_id ORDER BY e.experience_years DESC) AS rnk
-					  FROM Employee e
-					  INNER JOIN Project p
-					  USING(employee_id))
+			     e.employee_id,
+		      RANK() OVER(PARTITION BY project_id ORDER BY e.experience_years DESC) AS rnk
+		      FROM Employee e
+		      INNER JOIN Project p
+		      USING(employee_id))
 
 SELECT project_id,
-	   employee_id
+       employee_id
 FROM project_extn
 WHERE rnk = 1;
