@@ -73,16 +73,16 @@
 -- Page 88 is not suggested because user 1 already likes it.
 
 WITH friendship_extn AS (SELECT user1_id id,
-								user2_id frnd_id
-						 FROM Friendship
-						 UNION ALL
-						 SELECT user2_id id,
-								user1_id frnd_id
-						 FROM Friendship),
+				user2_id frnd_id
+			 FROM Friendship
+			 UNION ALL
+			 SELECT user2_id id,
+				user1_id frnd_id
+			 FROM Friendship),
 
 user1_visited AS (SELECT page_id
-				  FROM Likes
-				  WHERE user_id = 1)
+		  FROM Likes
+		  WHERE user_id = 1)
 
 SELECT DISTINCT l.page_id AS recommended_page
 FROM Likes l
