@@ -34,5 +34,5 @@
 --        to use DENSE_RANK()
 
 SELECT Score,
-	   DENSE_RANK() OVER(ORDER BY Score DESC) AS "Rank"
+       DENSE_RANK() OVER(ORDER BY Score DESC) AS "Rank"
 FROM Scores;
