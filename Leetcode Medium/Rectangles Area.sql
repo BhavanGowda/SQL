@@ -48,23 +48,23 @@
 -- Step3 : Finnaly we need to compute the output and filter all possible scenarios where the area will be zero
 
 WITH points_extn AS (SELECT p1.id AS p1id,
-							p1.x_value AS p1x,
-							p1.y_value AS p1y,
-							p2.id AS p2id,
-							p2.x_value AS p2x,
-							p2.y_value AS p2y
-					 FROM Points p1
-					 CROSS JOIN Points p2
-					 WHERE p1.id < p2.id),
+			    p1.x_value AS p1x,
+			    p1.y_value AS p1y,
+			    p2.id AS p2id,
+			    p2.x_value AS p2x,
+			    p2.y_value AS p2y
+		     FROM Points p1
+		     CROSS JOIN Points p2
+		     WHERE p1.id < p2.id),
 					 
 points_area AS (SELECT p1id AS p1,
-					   p2id AS p2,
-					   ABS(p1x - p2x)*ABS(p1y-p2y) AS area
-				FROM points_extn)
+		       p2id AS p2,
+		       ABS(p1x - p2x)*ABS(p1y-p2y) AS area
+		FROM points_extn)
 				
 SELECT p1,
-	   p2,
-	   area
+       p2,
+       area
 FROM points_area
 WHERE area <> 0
 ORDER BY area DESC,p1,p2;
