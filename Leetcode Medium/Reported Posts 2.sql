@@ -73,7 +73,8 @@ WITH action_agg AS (SELECT action_date,
 		    FROM Actions a
 		    LEFT JOIN Removals r
 		    ON a.post_id = r.post_id
-		    AND UPPER(a.extra) = 'SPAM'),
+		    AND UPPER(a.extra) = 'SPAM'
+		    AND UPPER(a.action) = 'REPORT'),
 
 daily_perc_removal AS (SELECT action_date,
 			      SUM(CASE WHEN UPPER(extra) = 'SPAM' THEN 1 END) AS total_spam,
