@@ -34,7 +34,7 @@
 -- Step2 : By doing left join we can retain the existing data and check the step1 condition and finally aggregate the data
 
 
-SELECT f1.followee AS follower, COUNT(DISTINCT f1.follower) AS num
+SELECT f1.followee AS follower, COUNT(f1.follower) AS num
 FROM Follow f1
 LEFT JOIN Follow f2
 ON f1.followee = f2.follower
