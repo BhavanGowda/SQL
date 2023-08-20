@@ -83,10 +83,10 @@ WITH match_extn AS (SELECT host_team AS team,
                     FROM Matches)
               
 SELECT t.team_id, 
-	   t.team_name, 
+       t.team_name, 
        SUM(CASE WHEN m.goals > m.oppn_goals THEN 3
                 WHEN m.goals = m.oppn_goals THEN 1
-           		ELSE 0
+                ELSE 0
            END) AS num_points
 FROM Teams t
 LEFT JOIN match_extn m
