@@ -65,7 +65,7 @@
 --				 aggregated the amounts
 
 WITH customer_agg AS (SELECT visited_on,
-                      		 SUM(amount) AS amount
+                      		     SUM(amount) AS amount
                       FROM Customer
                       GROUP BY visited_on),
 
