@@ -81,7 +81,7 @@ logins_lead AS (SELECT id,
 				
 active_ids AS (SELECT distinct id
 	       FROM logins_lead
-	       WHERE leaded_date IS NOT NULL) -- we can use datediff function as well datediff(leaded_date, login_date) = 4
+	       WHERE leaded_date IS NOT NULL AND DATEDIFF(leaded_date, login_date) = 5)
 			   
 SELECT i.id, a.name
 FROM active_ids i
