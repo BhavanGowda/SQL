@@ -1,30 +1,29 @@
 # Note : As of this version you will have to execute all tables in the LEETCODE questions separately
 
 # add the table name from the LEETCODE QUESTION
-table_name = "Person"
+table_name = "Employee"
 
 # add the table structure from the LEETCODE QUESTION
 table_structure = """-- +---------------+---------+
 -- | Column Name   | Type    |
 -- +---------------+---------+
--- | order_id      | int     |
--- | order_date    | date    |
--- | item_id       | int     |
--- | buyer_id      | int     |
--- | seller_id     | int     |
+-- | Id            | int     |
+-- | Month         | int     |
+-- | Salary        | int     |
 -- +---------------+---------+"""
 
 # add the table structure from the LEETCODE QUESTION
-table_data = """-- +----------+------------+---------+----------+-----------+
--- | order_id | order_date | item_id | buyer_id | seller_id |
--- +----------+------------+---------+----------+-----------+
--- | 1        | 2019-08-01 | 4       | 1        | 2         |
--- | 2        | 2018-08-02 | 2       | 1        | 3         |
--- | 3        | 2019-08-03 | 3       | 2        | 3         |
--- | 4        | 2018-08-04 | 1       | 4        | 2         |
--- | 5        | 2018-08-04 | 1       | 3        | 4         |
--- | 6        | 2019-08-05 | 2       | 2        | 4         |
--- +----------+------------+---------+----------+-----------+"""
+table_data = """-- | Id | Month | Salary |
+-- |----|-------|--------|
+-- | 1  | 1     | 20     |
+-- | 2  | 1     | 20     |
+-- | 1  | 2     | 30     |
+-- | 2  | 2     | 30     |
+-- | 3  | 2     | 40     |
+-- | 1  | 3     | 40     |
+-- | 3  | 3     | 60     |
+-- | 1  | 4     | 60     |
+-- | 3  | 4     | 70     |"""
 
 filter_val = ['', 'ColumnName', 'Type']
 
@@ -56,6 +55,6 @@ for i in range(1, int(len(table_data)/table_structure_len)):
                 insert_op.append(("'" + data_val[0:4] + '-' + data_val[4:6] + '-' + data_val[6:8] + "'"))
     insert_list.append("("+(', '.join(insert_op))+")")
 
-
+print(' '.join(['DROP', 'TABLE', table_name+';'])) # Drop Statement
 print(''.join(["CREATE TABLE "+table_name+" ("]+[', '.join(final_create_statement)]+[ ");"])) # Create Statement
 print(insert_starter + ','.join(insert_list) + ';') # Insert Statements
