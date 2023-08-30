@@ -48,18 +48,18 @@
 -- is at department level granularity
 -- Solution
 WITH salary_extn AS (SELECT s.amount,
-                     		SUBSTRING(s.pay_date, 1, 7) AS pay_month,
-                     		e.department_id,
-                     		AVG(s.amount) OVER(PARTITION BY SUBSTRING(s.pay_date, 1, 7)) AS monthly_avg_pay,
-                   			AVG(s.amount) OVER(PARTITION BY SUBSTRING(s.pay_date, 1, 7), e.department_id) AS dept_monthly_avg_pay  
+                     	    SUBSTRING(s.pay_date, 1, 7) AS pay_month,
+                     	    e.department_id,
+                     	    AVG(s.amount) OVER(PARTITION BY SUBSTRING(s.pay_date, 1, 7)) AS monthly_avg_pay,
+                   	    AVG(s.amount) OVER(PARTITION BY SUBSTRING(s.pay_date, 1, 7), e.department_id) AS dept_monthly_avg_pay  
                      FROM Employee e
                      INNER JOIN Salary s
                      USING(employee_id))
                      
 SELECT DISTINCT pay_month,
-				department_id,
+		department_id,
                 CASE WHEN dept_monthly_avg_pay > monthly_avg_pay then 'higher'
-                	 WHEN dept_monthly_avg_pay < monthly_avg_pay then 'lower'
+                     WHEN dept_monthly_avg_pay < monthly_avg_pay then 'lower'
                      ELSE 'same'
                 END AS comparision
 FROM salary_extn;
