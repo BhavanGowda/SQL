@@ -28,7 +28,7 @@ table_data = """-- +----------+------------+---------+----------+-----------+
 
 filter_val = ['', 'ColumnName', 'Type']
 
-table_structure = table_structure.replace('\n', '').replace('-', '').replace('+', '').replace(' ', '').split('|')
+table_structure = table_structure.replace('\n', '').replace('-', '').replace('enum', 'varchar').replace('+', '').replace(' ', '').split('|')
 
 filtered_structure = list(filter(lambda x : x not in filter_val, table_structure))
 
@@ -38,7 +38,7 @@ final_create_statement = [' '.join([filtered_structure[2*i], filtered_structure[
 
 type_storer = [filtered_structure[2*i+1] for i in range(table_structure_len)]
 
-table_data = list(filter(lambda x : x != '',table_data.replace('\n', '').replace('-', '').replace('+', '').replace(' ', '').split('|')))
+table_data = list(filter(lambda x : x != '',table_data.replace('\n', '').replace('-', '').replace('+', '').replace(' ', '').replace('"', '').split('|')))
 insert_starter = ''.join(["INSERT INTO "+table_name+" ("] + list(', '.join([filtered_structure[2*i] for i in range(table_structure_len)])) + [") VALUES "])
 
 insert_list = []
