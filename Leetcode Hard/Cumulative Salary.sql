@@ -65,13 +65,13 @@
 -- Step2 : Post we will have to put the filter for not inlcuding the latest month for the employee in the final result
 
 WITH employee_extn AS (SELECT Id,
-                       		    Month,
-                       		    SUM(Salary) OVER(PARTITION BY Id ORDER BY Month) AS Salary,
-                       		    MAX(Month) OVER(PARTITION BY Id) AS ExcludeMonth
+                       	      Month,
+                       	      SUM(Salary) OVER(PARTITION BY Id ORDER BY Month) AS Salary,
+                              MAX(Month) OVER(PARTITION BY Id) AS ExcludeMonth
                        FROM Employee)
-                       
+
 SELECT Id,
-	     Month,
+       Month,
        Salary
 FROM employee_extn
 WHERE Month <> ExcludeMonth
