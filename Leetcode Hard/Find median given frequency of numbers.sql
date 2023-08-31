@@ -28,9 +28,9 @@
 -- For eg : Freqeuncy for 0 is 7 and 1 is 2, so range for number 0 is (0,7) and for 1 is (7,9) in the set
 
 WITH numbers_extn AS (SELECT Number,
-                      		 Frequency,
-                      		 SUM(Frequency) OVER (ORDER BY Number) AS CumFrequency,
-                      		 SUM(Frequency) OVER () AS Mid
+                      		   Frequency,
+                      		   SUM(Frequency) OVER (ORDER BY Number) AS CumFrequency,
+                      		   SUM(Frequency) OVER () AS Mid
                       FROM Numbers)
 
 SELECT AVG(Number) AS median
