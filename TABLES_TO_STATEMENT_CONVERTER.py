@@ -55,6 +55,6 @@ for i in range(1, int(len(table_data)/table_structure_len)):
                 insert_op.append(("'" + data_val[0:4] + '-' + data_val[4:6] + '-' + data_val[6:8] + "'"))
     insert_list.append("("+(', '.join(insert_op))+")")
 
-print(' '.join(['DROP', 'TABLE', table_name+';'])) # Drop Statement
+print(' '.join(['DROP', 'TABLE IF EXISTS', table_name+';'])) # Drop Statement
 print(''.join(["CREATE TABLE "+table_name+" ("]+[', '.join(final_create_statement)]+[ ");"])) # Create Statement
 print(insert_starter + ','.join(insert_list) + ';') # Insert Statements
