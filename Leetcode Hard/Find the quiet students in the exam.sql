@@ -82,13 +82,13 @@
 --         name from the Student table
 
 WITH exam_extn AS (SELECT student_id,
-                   		    score,
-                   		    MAX(score) OVER(PARTITION BY exam_id) AS mx_scr,
-                   		    MIN(score) OVER(PARTITION BY exam_id) AS mn_scr			   
+                   	  score,
+                          MAX(score) OVER(PARTITION BY exam_id) AS mx_scr,
+                          MIN(score) OVER(PARTITION BY exam_id) AS mn_scr			   
                    FROM Exams),
 
 flag_students AS (SELECT student_id,
-                  		   SUM(CASE WHEN score = mx_scr OR score = mn_scr THEN 1 ELSE 0 END) AS flag
+                         SUM(CASE WHEN score = mx_scr OR score = mn_scr THEN 1 ELSE 0 END) AS flag
                   FROM exam_extn
                   GROUP BY student_id)
                   
