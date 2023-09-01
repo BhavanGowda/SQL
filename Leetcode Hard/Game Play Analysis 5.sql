@@ -51,13 +51,13 @@
 --          be helpful for computing the retention of 1 day (Hint : LEAD function)
 
 WITH activity_extn AS (SELECT player_id,
-                       		    event_date,
-                       		    MIN(event_date) OVER(PARTITION BY player_id) AS min_dt,
-                       		    LEAD(event_date) OVER(PARTITION BY player_id ORDER BY event_date) AS ld_dt		  
+                       	      event_date,
+                       	      MIN(event_date) OVER(PARTITION BY player_id) AS min_dt,
+                       	      LEAD(event_date) OVER(PARTITION BY player_id ORDER BY event_date) AS ld_dt		  
                        FROM Activity)
                        
 SELECT min_dt AS install_dt,
-	     COUNT(DISTINCT player_id) AS installs,
+       COUNT(DISTINCT player_id) AS installs,
        ROUND(COUNT(CASE WHEN DATEDIFF(ld_dt, min_dt) = 1 THEN player_id END)/COUNT(DISTINCT player_id), 2) AS Day1_retention
 FROM activity_extn
 GROUP BY min_dt;
