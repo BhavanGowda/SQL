@@ -28,3 +28,24 @@
 -- +------+------------+-----------+
 -- Note:
 -- Each day only have one row record, and the dates are increasing with id increasing.
+-- Note : This problem can be solved using row number and count
+-- Explanation:
+-- Step1 : To solve this problem we would require to know previous 2 days status or next 2 days status or previous 1, next 1 status
+--         along with the current day status
+-- Step2: We can use lead and lag functions to perform the above conditions
+
+WITH stadium_extn AS (SELECT id,
+                             visit_date,
+                             people,
+                             LEAD(people) OVER wnd AS ld_one,
+                             LEAD(people, 2) OVER wnd AS ld_two,
+                             LAG(people) OVER wnd AS lg_one,
+                             LAG(people,2) OVER wnd AS lg_two
+                      FROM Stadium
+                      WINDOW wnd AS (ORDER BY visit_date))
+
+SELECT id,
+       visit_date,
+       people
+FROM stadium_extn
+WHERE ((ld_one>=100 AND ld_two>=100) OR (lg_one>=100 AND lg_two>=100) OR (lg_one>=100 AND ld_one>=100)) AND people>=100;
