@@ -94,21 +94,21 @@
 -- Step3 : As we need all the users data as the final output irrespective of second purchase being done or not left join will be required
 
 WITH seller_extn AS (SELECT seller_id,
-							item_brand,
-							ROW_NUMBER() OVER (PARTITION BY seller_id ORDER BY order_date) AS rnk
-					 FROM Orders
-					 INNER JOIN Items
-					 USING(item_id)),
+			    item_brand,
+			    ROW_NUMBER() OVER (PARTITION BY seller_id ORDER BY order_date) AS rnk
+		     FROM Orders
+		     INNER JOIN Items
+		     USING(item_id)),
 
 second_sold_order AS (SELECT seller_id, 
-            				 item_brand 
-            		  FROM seller_extn
-            		  WHERE rnk = 2)
+            		     item_brand 
+            	      FROM seller_extn
+            	      WHERE rnk = 2)
 
 SELECT user_id AS seller_id,
-	     (CASE WHEN item_brand IS NULL THEN 'no' 
-			      ELSE 'yes' 
-		    END) AS 2nd_item_fav_brand
+       (CASE WHEN item_brand IS NULL THEN 'no' 
+	     ELSE 'yes' 
+	END) AS 2nd_item_fav_brand
 FROM Users u
 LEFT JOIN second_sold_order s
 ON u.user_id = s.seller_id
