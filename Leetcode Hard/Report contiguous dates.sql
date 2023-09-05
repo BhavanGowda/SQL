@@ -74,21 +74,23 @@
 -- Step4 : Grouping the states and retrieving the max and min dates for that interval
 
 WITH state_flag AS (SELECT fail_date AS period_dt,
-							'failed' AS period_state
-					 FROM Failed
-					 WHERE fail_date BETWEEN '2019-01-01' AND '2019-12-31'
-					 UNION ALL
-					 SELECT success_date AS period_dt,
-							'succeeded' AS period_state
-					 FROM Succeeded
-					 WHERE success_date BETWEEN '2019-01-01' AND '2019-12-31'),
+			   'failed' AS period_state
+		    FROM Failed
+		    WHERE fail_date BETWEEN '2019-01-01' AND '2019-12-31'
+		    UNION ALL
+		    SELECT success_date AS period_dt,
+			   'succeeded' AS period_state
+		    FROM Succeeded
+		    WHERE success_date BETWEEN '2019-01-01' AND '2019-12-31'),
 
 state_extn AS (SELECT period_dt,
-					  period_state,
-					  DATE_ADD(period_dt, INTERVAL -(ROW_NUMBER() OVER(PARTITION BY period_state ORDER BY period_dt)) DAY) AS cnty
-			   FROM state_flag)
+		      period_state,
+		      DATE_ADD(period_dt, INTERVAL -(ROW_NUMBER() OVER(PARTITION BY period_state ORDER BY period_dt)) DAY) AS cntn
+	       FROM state_flag)
 
-SELECT period_state, MIN(period_dt) AS start_date, MAX(period_dt) AS end_date
+SELECT period_state, 
+       MIN(period_dt) AS start_date,
+       MAX(period_dt) AS end_date
 FROM state_extn
-GROUP BY period_state, cnty
+GROUP BY period_state, cntn
 ORDER BY start_date;
