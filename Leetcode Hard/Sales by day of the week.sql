@@ -89,20 +89,20 @@
 -- Step2 : Once left join is performed, we need to use CASE WHEN and GROUP BY to aggregate the data based upon the above result
 
 WITH items_order_extn AS (SELECT item_category AS Category,
-								 COALESCE(WEEKDAY(order_date),-1) AS order_day,
-								 COALESCE(quantity,0) AS quantity
-						  FROM Items
-						  LEFT JOIN Orders
-						  USING(item_id))
+				 COALESCE(WEEKDAY(order_date),-1) AS order_day,
+				 COALESCE(quantity,0) AS quantity
+			  FROM Items
+			  LEFT JOIN Orders
+			  USING(item_id))
 						  
 SELECT Category,
-	   COALESCE(SUM(CASE WHEN order_day = 0 THEN quantity END),0) AS Monday,
-	   COALESCE(SUM(CASE WHEN order_day = 1 THEN quantity END),0) AS Tuesday,
-	   COALESCE(SUM(CASE WHEN order_day = 2 THEN quantity END),0) AS Wednesday,
-	   COALESCE(SUM(CASE WHEN order_day = 3 THEN quantity END),0) AS Thursday,
-	   COALESCE(SUM(CASE WHEN order_day = 4 THEN quantity END),0) AS Friday,
-	   COALESCE(SUM(CASE WHEN order_day = 5 THEN quantity END),0) AS Saturday,
-	   COALESCE(SUM(CASE WHEN order_day = 6 THEN quantity END),0) AS Sunday
+       COALESCE(SUM(CASE WHEN order_day = 0 THEN quantity END),0) AS Monday,
+       COALESCE(SUM(CASE WHEN order_day = 1 THEN quantity END),0) AS Tuesday,
+       COALESCE(SUM(CASE WHEN order_day = 2 THEN quantity END),0) AS Wednesday,
+       COALESCE(SUM(CASE WHEN order_day = 3 THEN quantity END),0) AS Thursday,
+       COALESCE(SUM(CASE WHEN order_day = 4 THEN quantity END),0) AS Friday,
+       COALESCE(SUM(CASE WHEN order_day = 5 THEN quantity END),0) AS Saturday,
+       COALESCE(SUM(CASE WHEN order_day = 6 THEN quantity END),0) AS Sunday
 FROM items_order_extn
 GROUP BY Category
 ORDER BY Category;
