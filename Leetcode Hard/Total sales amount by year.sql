@@ -72,31 +72,30 @@
 -- Step3 : Finally if the total_amount is 0, we have to filter them
 
 WITH dim_product_year AS (SELECT product_id,
-								 product_name,
-								 report_year
-						 FROM Product
-						 CROSS JOIN (SELECT '2018' AS report_year
-									 UNION ALL
-									 SELECT '2019' AS report_year
-									 UNION ALL
-									 SELECT '2020' AS report_year) a),
+				 product_name,
+				 report_year
+			  FROM Product
+			  CROSS JOIN (SELECT '2018' AS report_year
+				      UNION ALL
+				      SELECT '2019' AS report_year
+				      UNION ALL
+				      SELECT '2020' AS report_year) a)
 									 
-
 SELECT p.product_id,
- 	   product_name,
+       product_name,
        report_year,
- 	   SUM((CASE WHEN YEAR(period_start) = report_year AND YEAR(period_end) = report_year THEN DATEDIFF(period_end, period_start)+1
- 				 WHEN YEAR(period_start) = report_year AND YEAR(period_end) != report_year THEN DATEDIFF(CONCAT(report_year, '-12-31'),period_start)+1
- 				 WHEN YEAR(period_start) != report_year AND YEAR(period_end) = report_year THEN DATEDIFF(period_end, CONCAT(report_year, '-01-01'))+1
- 				 WHEN YEAR(period_start) < report_year AND YEAR(period_end) > report_year THEN DATEDIFF(CONCAT(report_year, '-12-31'), CONCAT(report_year, '-01-01'))+1
- 				 ELSE 0
+       SUM((CASE WHEN YEAR(period_start) = report_year AND YEAR(period_end) = report_year THEN DATEDIFF(period_end, period_start)+1
+ 		 WHEN YEAR(period_start) = report_year AND YEAR(period_end) != report_year THEN DATEDIFF(CONCAT(report_year, '-12-31'),period_start)+1
+ 		 WHEN YEAR(period_start) != report_year AND YEAR(period_end) = report_year THEN DATEDIFF(period_end, CONCAT(report_year, '-01-01'))+1
+ 		 WHEN YEAR(period_start) < report_year AND YEAR(period_end) > report_year THEN DATEDIFF(CONCAT(report_year, '-12-31'), CONCAT(report_year, '-01-01'))+1
+ 		 ELSE 0
      	    END)*average_daily_sales) AS total_amount
 FROM dim_product_year p
 LEFT JOIN Sales s
 USING(product_id)
 GROUP BY p.product_id,
- 		 product_name,
- 		 report_year
+ 	 product_name,
+ 	 report_year
 HAVING total_amount > 0
 ORDER BY product_id,
          report_year;
