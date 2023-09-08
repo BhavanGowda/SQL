@@ -25,12 +25,12 @@
 --		   columns.
 
 WITH students_extn AS (SELECT name,
-							  continent,
-							  ROW_NUMBER() OVER (PARTITION BY continent ORDER BY name) AS rnk
-					   FROM students)
+			      continent,
+			      ROW_NUMBER() OVER (PARTITION BY continent ORDER BY name) AS rnk
+		       FROM students)
 					   
 SELECT MIN(CASE WHEN continent = 'America' THEN name END) AS America,
-	   MIN(CASE WHEN continent = 'Asia' THEN name END) AS Asia,
-	   MIN(CASE WHEN continent = 'Europe' THEN name END) AS Europe
+       MIN(CASE WHEN continent = 'Asia' THEN name END) AS Asia,
+       MIN(CASE WHEN continent = 'Europe' THEN name END) AS Europe
 FROM students_extn
 GROUP BY rnk;
