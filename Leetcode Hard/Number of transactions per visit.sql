@@ -83,25 +83,27 @@
 -- * For transactions_count >= 4, No customers visited the bank and did more than three transactions so we will stop at transactions_count = 3
 
 WITH cte AS (SELECT v.user_id,
-             		    visit_date,
-         			      COUNT(amount) AS cnt
+             	    visit_date,
+         	    COUNT(amount) AS cnt
              FROM Visits v
              LEFT JOIN Transactions t
- 		         ON v.visit_date = t.transaction_date
+ 	     ON v.visit_date = t.transaction_date
              AND v.user_id = t.user_id
              GROUP BY v.user_id, visit_date),
 
 rcte AS (SELECT 0 AS transactions_count
          UNION ALL
-         SELECT (transactions_count+1) AS transactions_count FROM rcte WHERE transactions_count < (SELECT max(cnt) FROM cte)),
+         SELECT (transactions_count+1) AS transactions_count 
+	 FROM rcte 
+	 WHERE transactions_count < (SELECT max(cnt) FROM cte)),
     
 tcte AS (SELECT cnt,
-         		    COUNT(visit_date) AS val
+         	COUNT(visit_date) AS val
          FROM cte
          GROUP BY cnt)
 
 SELECT transactions_count,
-	     COALESCE(val, 0) AS visits_count 
+       COALESCE(val, 0) AS visits_count 
 FROM rcte
 LEFT JOIN tcte
 ON rcte.transactions_count = tcte.cnt;
