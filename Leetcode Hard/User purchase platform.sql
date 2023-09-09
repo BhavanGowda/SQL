@@ -42,6 +42,11 @@
 -- On 2019-07-01, user 1 purchased using both desktop and mobile, user 2 purchased using mobile only and user 3 purchased using desktop only.
 -- On 2019-07-02, user 2 purchased using mobile only, user 3 purchased using desktop only and no one purchased using both platforms.
 
+-- Explanation:
+-- Step1 : We need to have a fixed dimension table wrt to all spend_date we need to find the spends on desktop, mobile and both
+-- Step2 : We need to map the users wrt to platform i.e. in which category they belong for the spent date
+-- Step3 : Finally we need to join the results of step 1 and 2 to get the final result
+
 WITH dim_spends AS (SELECT spend_date,
                            platform
                     FROM (SELECT DISTINCT spend_date AS spend_date FROM Spending) a
