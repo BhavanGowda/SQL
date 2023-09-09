@@ -17,7 +17,7 @@
 -- | Column Name         | Type    |
 -- +---------------------+---------+
 -- | product_id          | int     |
--- | period_start        | varchar |
+-- | period_start        | date    |
 -- | period_end          | date    |
 -- | average_daily_sales | int     |
 -- +---------------------+---------+
