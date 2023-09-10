@@ -82,6 +82,15 @@
 -- * For transactions_count = 3, The visit (9, "2020-01-25") did three transactions so visits_count = 1.
 -- * For transactions_count >= 4, No customers visited the bank and did more than three transactions so we will stop at transactions_count = 3
 
+-- Explanation (Tricky)
+-- Step1 : The first most important step in this question is to get a structured sequence of numbers from 0 to max of one day transaction, which
+--	   is handled by recursive CTE in which I'm providing the starting point i.e. 0 and where condition which is stopper for the
+--	   recursive loop
+-- Step2 : Once we have the sequence of numbers from 0 to max transactions, we actually need to find how many fall under the transaction
+--	   count, by joining the table visitors and transactions
+-- Step3 : As final step we need to join our dimention table created in step1 with the output of step2 to get the final result of how
+--	   many users lie in that transaction counts
+
 WITH cte AS (SELECT v.user_id,
              	    visit_date,
          	    COUNT(amount) AS cnt
