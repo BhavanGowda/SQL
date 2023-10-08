@@ -27,7 +27,7 @@ table_data = """-- | Id | Month | Salary |
 
 filter_val = ['', 'ColumnName', 'Type']
 
-table_structure = table_structure.replace('\n', '').replace('-', '').replace('enum', 'varchar').replace('+', '').replace(' ', '').split('|')
+table_structure = table_structure.replace('\n', '').replace('-', '').replace('enum', 'varchar').replace('+', '').replace(' ', '').replace('varchar', 'varchar(100)').split('|')
 
 filtered_structure = list(filter(lambda x : x not in filter_val, table_structure))
 
