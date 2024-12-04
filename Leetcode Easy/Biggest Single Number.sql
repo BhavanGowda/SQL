@@ -74,3 +74,14 @@ WITH numbers_agg AS (SELECT num
 
 SELECT MAX(num) AS num
 FROM numbers_agg;
+
+Solution 2 : 
+
+SELECT MAX(num) AS max_number
+FROM MyNumbers
+WHERE num IN (
+    SELECT num
+    FROM MyNumbers
+    GROUP BY num
+    HAVING COUNT(num) = 1
+);
