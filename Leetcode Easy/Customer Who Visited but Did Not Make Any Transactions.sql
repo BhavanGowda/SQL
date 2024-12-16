@@ -83,3 +83,13 @@ LEFT JOIN Transactions t
 USING(visit_id)
 WHERE transaction_id IS NULL
 GROUP BY customer_id
+
+---  Alter native SQL 
+
+select v.customer_id , count(v.visit_id) as count_of_visits
+from Visits v
+left join  Transactions t
+on v.visit_id = t.visit_id
+where t.transaction_id is null 
+group by v.customer_id ;
+    
