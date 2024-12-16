@@ -68,3 +68,15 @@ FROM Employee e
 LEFT JOIN Bonus b
 USING(empId)
 WHERE COALESCE(bonus, 0) < 1000
+
+
+
+Solution 2 : 
+
+
+select E.name , coalesce(B.bonus,0)
+from Employee E
+left join Bonus B
+on E.empId=B.empId
+where B.bonus < 1000 or B.bonus is null
+order by E.name;
